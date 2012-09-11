@@ -1496,3 +1496,7 @@ aside.gdbar img {
     font-family: monospace !important;
   }
 }
+
+.diagram {
+    margin-left: 200px;
+}
