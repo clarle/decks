@@ -1,0 +1,400 @@
+<!--
+Google IO 2012 HTML5 Slide Template
+
+Authors: Eric Bidelman <ebidel@gmail.com>
+         Luke Mahé <lukem@google.com>
+
+URL: https://code.google.com/p/io-2012-slides
+-->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Google IO 2012</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">-->
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+  <!--This one seems to work all the time, but really small on ipad-->
+  <!--<meta name="viewport" content="initial-scale=0.4">-->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="stylesheet" media="all" href="theme/css/default.css">
+  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="theme/css/phone.css">
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->
+  <script data-main="js/slides" src="js/require-1.0.8.min.js"></script>
+</head>
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <!--
+  <slide class="logoslide nobackground">
+    <article class="flexbox vcenter">
+      <span><img src="images/google_developers_logo.png"></span>
+    </article>
+  </slide>
+  -->
+
+  <slide class="title-slide segue nobackground">
+    <aside class="gdbar"><img src="images/js-logo.png"></aside>
+    <!-- The content of this hgroup is replaced programmatically through the slide_config.json. -->
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+    </hgroup>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>What we've seen so far</h2>
+    </hgroup>
+    <article>
+      <p><b>JavaScript on the server:</b></p>
+      <ul class="build">
+        <li><b class="green">Node.js</b>, event-driven server-side JavaScript</li>
+        <li>Frameworks and tools like <b class="green">Express</b> and <b class="green">Connect</b></li>
+      </ul>
+      <p><b>Client-side JavaScript MV* frameworks:</b></p>
+      <ul class="build">
+        <li>Lower-level frameworks like <b class="blue">Backbone</b> and the <b class="blue">YUI App Framework</b></li>
+        <li>Highly abstracted (MVVM and others) frameworks like <b class="blue">Ember</b> and <b class="blue">Knockout</b></li>
+      </ul>
+      <p><b>One language, client and server</b></p>
+      <ul class="build">
+        <li>But are we really using them effectively?</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide class="segue dark quote nobackground">
+    <aside class="gdbar right bottom"><img src="images/js-logo.png"></aside>
+    <article class="flexbox vleft auto-fadein">
+      <q>
+        Instead of coding in one language, we're actually coding in two. One is the subset [of] JavaScript that can be run in all browsers, and another is the set of JavaScript that can be run by Node.
+      </q>
+      <div class="author">
+        Eric Florenzano
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Stepping Back: A History of Web Frameworks</h2>
+    </hgroup>
+    <article>
+      <p><b>Highly abstracted server MVC frameworks gain popularity</b></p> 
+      <ul class="build">
+        <li><b class="red">Ruby on Rails</b> (2004)</li>
+        <li><b class="green">Django</b> (2005)</li>
+        <li><b class="blue">CakePHP</b> (2005)</li>
+      </ul>
+      <p><b>Rendering is done on the server, and outputs HTML</b></p>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Stepping Back: A History of Web Frameworks</h2>
+    </hgroup>
+    <article>
+      <p><b>Client-side MV* frameworks gain popularity</b></p>
+      <ul class="build fade"> 
+        <li><b class="yellow3">Knockout.js</b> (2010)</li>
+        <li><b class="blue">Backbone.js</b> (2010)</li>
+        <li><b class="red">Ember.js</b> (2011)</li>
+      </ul>
+      <p><b>Server outputs JSON, and the client renders the data into HTML</b></p> 
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Client-side Frameworks</h2>
+    </hgroup>
+    <article>
+      <p><b>Benefits:</b></p>
+      <ul class="build">
+        <li>AJAX techniques and JS animations provide <b class="green">a more responsive experience</b></li>
+        <li><b class="green">Separation of concerns</b>: server provides data, client handles layout</li>
+      </ul>
+      <p><b>Drawbacks:</b></p>
+      <ul class="build">
+        <li>Limited possibilities for <b class="red">SEO</b> and <b class="red">accessibility</b></li>
+        <li>Initial rendering with JavaScript <b class="red">slows down time to first interaction</b></li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Real world example: Twitter</h2>
+    </hgroup>
+    <article class="flexbox vcenter">
+      <img src="images/twitter-fail.jpg" class="reflect" alt="A failed client-side render of Twitter" title="Twitter Client-Side Rendering">
+      <footer class="source">source: Paul Stainthorp (Flickr: pstainthrop)</footer>
+    </article>
+  </slide>
+
+  <slide class="segue dark quote nobackground">
+    <aside class="gdbar right bottom"><img src="images/js-logo.png"></aside>
+    <article class="flexbox vleft auto-fadein">
+      <q>
+        ...We've been working to take back control of our front-end performance by moving the rendering to the server. This has allowed us to drop our initial page load times to 1/5th of what they were...
+      </q>
+      <div class="author">
+        Dan Webb<br/>Twitter Engineering Manager
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>The Best of Both Worlds</h2>
+      <h3>JavaScript Client/Server Frameworks</h3>
+    </hgroup>
+    <article>
+      <p><b>Render the first page load completely on the server</b></p>
+      <ul class="build fade"> 
+        <li><b class="blue">Fast server-side rendering</b>: time to first interaction is cut</li>
+        <li>Allows search engines to index your page for <b class="blue">SEO purposes</b></li>
+        <li><b class="blue">Progressive enhancement</b>: site works even without JavaScript enabled</li>
+      </ul>
+      <p><b>Incrementally update sections of the page through client-side rendering</b></p>
+      <ul class="build fade"> 
+        <li>Keeps the <b class="blue">native-application-like responsiveness</b></li>
+        <li>Even more: Model representations can be <b class="blue">shared between client and server</b></li>
+      </ul> 
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Sharing <b class="green">Mojito</b> Models among Clients and Server </h2>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="JavaScript (Mojito)">
+/* File name: WeatherModel.common.js */
+YUI.add('WeatherModel', function(Y, NAME) {
+
+    Y.mojito.models[NAME] = {
+
+        /* Client and server code can both use the same 'fetch' method to get data */
+        fetch: function(location, callback) {
+            var query = 'SELECT * FROM weather.forecast WHERE location=' + location;
+
+            Y.YQL(query, function (response) {
+                /* Parse the data from the response here */
+                callback(error, data);  
+            });
+        }
+    };
+
+}, '0.0.1', {requires: ['yql', 'jsonp-url']});
+</pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Battle of the Frameworks</h2>
+    </hgroup>
+    <article>
+      <p><b>Three major client/server frameworks as of September 2012</b></p>
+      <ul class="build"> 
+        <li><b class="green">Mojito</b></li>
+          <ul>
+            <li><b>Specializations</b>:
+            <ul> 
+              <li>Progressive enhancement, device-specific views, internationalization</li>
+            </ul>
+          </ul>
+        <li><b class="red">Derby</b></li>
+          <ul>
+            <li><b>Specializations</b>:
+            <ul> 
+              <li>Real-time <em>collaborative</em> applications, advanced conflict resolution</li>
+            </ul>
+          </ul>
+        <li><b class="blue">Meteor</b></li>
+          <ul>
+            <li><b>Specializations</b>:
+            <ul> 
+              <li>Real-time applications, same abstracted API on client and server</li>
+            </ul>
+          </ul>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Device Specific Views in <b class="green">Mojito</b></h2>
+    </hgroup>
+    <article class="smaller">
+      <pre class="prettyprint" data-lang="index.hb.html">
+&lt;html>
+  &lt;head>
+    &lt;title>Default View&lt;/title>
+  &lt;/head>
+  &lt;body>
+    &lt;div id="{{mojit_view_id}}" class="mojit">
+      &lt;h2>Hi {{name}}, it looks like you're visiting us from a regular browser!&lt;/h2>
+    &lt;/div>
+  &lt;/body>
+&lt;/html>
+</pre>
+<pre class="prettyprint" data-lang="index.iphone.hb.html">
+&lt;html>
+  &lt;head>
+    &lt;title>iPhone View&lt;/title>
+  &lt;/head>
+  &lt;body>
+    &lt;div id="{{mojit_view_id}}" class="mojit">
+      &lt;h2>Hi {{name}}, it looks like you're visiting us from an iPhone!&lt;/h2>
+    &lt;/div>
+  &lt;/body>
+&lt;/html>
+</pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Advanced Conflict Resolution in <b class="red">Derby</b></h2>
+    </hgroup>
+    <article class="flexbox vcenter">
+      <p><b class="red">Derby</b>'s model synchronization engine: <b>Racer</b></p>
+      <img src="images/derby-chat.png" class="reflect" alt="A chat application in Derby" title="Derby Chat Application">
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Experimental OT Techniques in <b class="red">Derby</b></h2>
+    </hgroup>
+    <article class="smaller">
+      <pre class="prettyprint" data-lang="CoffeeScript (Derby)">
+  ## Use experimental operational transformation plugin in Racer ##
+
+  racer.use require 'racer/lib/ot'
+
+  ## Operational transformation text insertion ##
+
+  model.on 'otInsert', '_room.text', (pos, text, isLocal) ->
+    return if isLocal
+    replaceText editor.value[...pos] + text + editor.value[pos..], (cursor) ->
+      if pos <= cursor then cursor + text.length else cursor
+
+  ## Operational transformation text deletion ##
+
+  model.on 'otDel', '_room.text', (pos, text, isLocal) ->
+    return if isLocal
+    replaceText editor.value[...pos] + editor.value[pos + text.length..], (cursor) ->
+      if pos < cursor then cursor - Math.min(text.length, cursor - pos) else cursor
+</pre>
+    </article>
+  </slide>
+  
+  <slide>
+    <hgroup>
+      <h2>Same Database API, Client and Server, in <b class="blue">Meteor</b></h2>
+    </hgroup>
+    <article>
+      <p>Use the same familiar <b>MongoDB API</b> whether you're on the server or client.</p>
+      <pre class="prettyprint" data-lang="JavaScript (Meteor Server)">
+// Publish all room documents, and per-room messages
+Meteor.publish("chatrooms");
+Meteor.publish("messages", function (room_id) {
+  return Messages.find({room: room_id});
+});
+</pre>
+<pre class="prettyprint" data-lang="JavaScript (Meteor Client)">
+// Subscribe to all rooms, and messages in the first room
+Meteor.subscribe("chatrooms");
+Meteor.subscribe("messages", Chatrooms.find()[0]._id);
+</pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Packaging and Deployment in <b class="blue">Meteor</b></h2>
+    </hgroup>
+    <article>
+      <p><b class="blue">Meteor</b> contains its own packaging system to quickly install dependencies.</p>
+      <pre class="prettyprint" data-lang="Packaging">
+        # Use jQuery and Backbone within your Meteor application
+        $ meteor add jquery backbone
+
+        # Remove Twitter Bootstrap from your Meteor application
+        $ meteor remove bootstrap
+      </pre>
+      <p>It also provides an infrastructure to quickly deploy your application online.</p>
+      <pre class="prettyprint" data-lang="Deployment">
+        # Quickly deploy to a Meteor domain
+        $ meteor deploy myapp.meteor.com
+
+        # Or set a CNAME and deploy to your own
+        $ meteor deploy www.myapp.com
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Using <b class="green">Mojito</b>, <b class="red">Derby</b>, and <b class="blue">Meteor</b> Today</h2>
+    </hgroup>
+    <article>
+      <p><b>Who's using these frameworks today?</b></p>
+      <ul class="build"> 
+        <li><b class="green">Mojito</b></li>
+          <ul>
+            <li>Currently used in production at <b>Yahoo!</b> in products such as <a href="http://axis.yahoo.com">Yahoo Axis!</a></li>
+          </ul>
+        <li><b class="red">Derby</b></li>
+          <ul>
+            <li>Currently used in development at <a href="http://6israndom.com/">6israndom</a></li>
+          </ul>
+        <li><b class="blue">Meteor</b></li>
+          <ul>
+            <li>Currently used in production at the <a href="http://meteor.com">Meteor</a> platform site</li>
+            <li><b>Note:</b> Security flaws in the stable Meteor branch exist, but are being fixed</li>
+          </ul>
+      </ul>
+    </article>
+  </slide>
+
+  <slide class="thank-you-slide segue nobackground">
+    <aside class="gdbar right"><img src="images/js-logo.png"></aside>
+    <article class="flexbox vleft auto-fadein">
+      <h2>&lt;Thank You!&gt;</h2>
+      <p>You can find me online in the following places:</p>
+    </article>
+    <p class="auto-fadein" data-config-contact>
+      <!-- populated from slide_config.json -->
+    </p>
+  </slide>
+
+  <slide class="backdrop"></slide>
+
+</slides>
+
+<script>
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-XXXXXXXX-1']);
+_gaq.push(['_trackPageview']);
+
+(function() {
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+</script>
+
+<!--[if IE]>
+  <script src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+  <script>CFInstall.check({mode: 'overlay'});</script>
+<![endif]-->
+</body>
+</html>
