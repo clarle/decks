@@ -46,39 +46,19 @@ URL: https://code.google.com/p/io-2012-slides
 
   <slide>
     <hgroup>
-      <h2>What we've seen so far</h2>
+      <h2>Quick Overview</h2>
     </hgroup>
     <article>
-      <p><b>JavaScript on the server:</b></p>
+      <p><b>A history of web frameworks</b></p>
+      <p><b>Why are we moving to the server?</b></p>
       <ul class="build">
-        <li><b class="green">Node.js</b>, event-driven server-side JavaScript</li>
-        <li>Frameworks and tools like <b class="green">Express</b> and <b class="green">Connect</b></li>
+        <li>Benefits for <b class="green">users</b></li>
+        <li>Benefits for <b class="blue">developers</b></li>
       </ul>
-      <p><b>Client-side JavaScript MV* frameworks:</b></p>
+      <p><b>How you can use this with your YUI code today</b></p>
       <ul class="build">
-        <li>Frameworks for building more complex applications:
-          <ul>
-            <li><b class="blue">Backbone</b></li>
-            <li><b class="blue">YUI App Framework</b></li>
-          </ul>
-        </li>
+        <li>Or even <b class="yellow">any other JS framework!</b></li>
       </ul>
-      <p><b>One language, client and server</b></p>
-      <ul class="build">
-        <li>But are we really using them effectively?</li>
-      </ul>
-    </article>
-  </slide>
-
-  <slide class="segue dark quote nobackground">
-    <aside class="gdbar right bottom"><img src="images/js-logo.png"></aside>
-    <article class="flexbox vleft auto-fadein">
-      <q>
-        Instead of coding in one language, we're actually coding in two. One is the subset [of] JavaScript that can be run in all browsers, and another is the set of JavaScript that can be run by Node.
-      </q>
-      <div class="author">
-        Eric Florenzano
-      </div>
     </article>
   </slide>
 
@@ -96,7 +76,7 @@ URL: https://code.google.com/p/io-2012-slides
       <p><b>Rendering is done on the server, and outputs HTML</b></p>
     <img class="diagram" src="images/server-side.png"/>   
     </article>
-  </slide>  
+  </slide>
 
   <slide>
     <hgroup>
@@ -130,7 +110,7 @@ URL: https://code.google.com/p/io-2012-slides
     <article>
       <p><b>Client-side MV* frameworks gain popularity</b></p>
       <ul class="build"> 
-        <li>AJAX techniques and JS animations provide <b class="green">a more responsive experience</b></li>
+        <li>Partial rendering and JS animations provide <b class="green">a more responsive experience</b></li>
         <li><b class="green">Separation of concerns</b>: server provides data, client handles layout</li>
       </ul>
       <p><b>Server outputs JSON, and the client renders the data into HTML</b></p>
@@ -140,46 +120,18 @@ URL: https://code.google.com/p/io-2012-slides
 
   <slide>
     <hgroup>
-      <h2>Example: YUI App Framework</h2>
-    </hgroup>
-    <article>
-      <pre class="prettyprint" data-lang="javascript">
-        var TodoView = Y.Base.create('todoView', Y.View, [], {
-            initializer: function () {
-                var model = this.get('model');
-                model.after('change', this.render, this);
-            },
-
-            render: function () {
-                var container = this.get('container');
-                var model = this.get('model');
-
-                container.setHTML(this.template(model.toJSON()));
-                container.toggleClass('completed', model.get('completed'));
-
-                this.set('inputNode', container.one('.edit'));
-
-                return this;
-            }
-        });
-      </pre>
-    </article>
-  </slide>
-
-  <slide>
-    <hgroup>
       <h2>Problems with Client-Side Rendering</h2>
     </hgroup>
     <article>
       <p><b>Performance</b></p>
-      <ul class="build"> 
+      <ul class="build fade"> 
         <li>On slower mobile devices - <b class="green">time to initial content</b> can be much slower</li>
       </ul>
       <p><b>SEO Concerns</b></p>
-      <ul class="build"> 
+      <ul class="build fade"> 
         <li>Server doesn't generate HTML - <b class="green">only JSON</b></li>
-        <li>Not all search engines can index the pages of your app</li>
-      </ul>  
+        <li>Not all <b class="green">search engines</b> can index the pages of your app</li>
+      </ul>
     </article>
   </slide>
 
@@ -208,49 +160,240 @@ URL: https://code.google.com/p/io-2012-slides
   <slide>
     <hgroup>
       <h2>The Best of Both Worlds</h2>
-      <h3>JavaScript Client/Server Frameworks</h3>
+      <h3>Client/Server Frameworks</h3>
     </hgroup>
     <article>
       <p><b>Render the first page load completely on the server</b></p>
       <ul class="build fade"> 
         <li><b class="blue">Fast server-side rendering</b>: time to first interaction is cut</li>
         <li>Allows search engines to index your page for <b class="blue">SEO purposes</b></li>
-        <li><b class="blue">Progressive enhancement</b>: site works even without JavaScript enabled</li>
+        <li><b class="blue">Progressive enhancement</b>: site gives a good experience, even if not all JS is supported</li>
       </ul>
       <p><b>Incrementally update sections of the page through client-side rendering</b></p>
       <ul class="build fade"> 
         <li>Keeps the <b class="blue">native-application-like responsiveness</b></li>
-        <li>Even more: Model representations can be <b class="blue">shared between client and server</b></li>
       </ul> 
     </article>
   </slide>
 
   <slide>
     <hgroup>
-      <h2>Sharing <b class="green">Mojito</b> Models among Clients and Server </h2>
+      <h2>Problems?</h2>
     </hgroup>
     <article>
-      <pre class="prettyprint" data-lang="JavaScript (Mojito)">
-/* File name: WeatherModel.common.js */
-YUI.add('WeatherModel', function(Y, NAME) {
-
-    Y.mojito.models[NAME] = {
-
-        /* Client and server code can both use the same 'fetch' method to get data */
-        fetch: function(location, callback) {
-            var query = 'SELECT * FROM weather.forecast WHERE location=' + location;
-
-            Y.YQL(query, function (response) {
-                /* Parse the data from the response here */
-                callback(error, data);  
-            });
-        }
-    };
-
-}, '0.0.1', {requires: ['yql', 'jsonp-url']});
-</pre>
+      <p><b>Lots of code duplication if using two different languages</b></p>
+      <ul class="build fade"> 
+        <li>Not much shared code possible since they're not interoperable</li>
+        <li><b>Example:</b> Write i18n code once in PHP for the server, and again in JavaScript for the client</li>
+      </ul>
+      <p>Our solution:</p>
+      <ul class="build fade"> 
+        <li><b class="green">Node.js</b></li>
+      </ul>
     </article>
   </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Node.js</h2>
+    </hgroup>
+    <article>
+      <p><b>JavaScript on the server:</b></p>
+      <ul class="build">
+        <li><b class="green">Node.js</b>, event-driven server-side JavaScript</li>
+        <li>Micro-frameworks like <b class="green">Express</b> and <b class="green">Connect</b></li>
+        <li>Build tooling like <b class="green">Grunt</b></li>
+      </ul>
+      <p><b>One language, client and server</b></p>
+      <ul class="build">
+        <li>But are we really using them effectively?</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide class="segue dark quote nobackground">
+    <aside class="gdbar right bottom"><img src="images/js-logo.png"></aside>
+    <article class="flexbox vleft auto-fadein">
+      <q>
+        Instead of coding in one language, we're actually coding in two. One is the subset [of] JavaScript that can be run in all browsers, and another is the set of JavaScript that can be run by Node.
+      </q>
+      <div class="author">
+        Eric Florenzano
+      </div>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>The Life of a HTTP Request</h2>
+      <h3>When a request comes in, what needs to happen?</h3>
+    </hgroup>
+    <article>
+      <table>
+        <tr>
+          <th>HTTP Middleware</th><th><center>Server</center></th><th><center>Client</center></th><th><center>Both</center></th>
+        </tr>
+        <tr>
+          <td>Personalization</td><td><center style="font-size: 24px">✓</center></td><td></td><td></td>
+        </tr>
+        <tr>
+          <td>Route Handling</td><td><center style="font-size: 24px">✓</center></td><td><center style="font-size: 24px">✓</center></td><td class="highlight"><center style="font-size: 24px">✓</center></td>
+        </tr>
+        <tr>
+          <td>Resource Fetching</td><td><center style="font-size: 24px">✓</center></td><td><center style="font-size: 24px">✓</center></td><td class="highlight"><center style="font-size: 24px">✓</center></td>
+        </tr>
+        <tr>
+          <td>Formatting and Rendering</td><td><center style="font-size: 24px">✓</center></td><td><center style="font-size: 24px">✓</center></td><td class="highlight"><center style="font-size: 24px">✓</center></td>
+        </tr>
+        <tr>
+          <td>UI Binding</td><td></td><td><center style="font-size: 24px">✓</center></td><td></td>
+        </tr>
+      </table>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Sharing data between client and server</h2>
+    </hgroup>
+    <article>
+      <p><b>Express State</b></p>
+      <ul class="build"> 
+        <li><b>github.com/yahoo/express-state</b></li>
+        <li>Lets you share simple data between client and server</li>
+      </ul>
+      <pre class="prettyprint" data-lang="javascript (server)">
+      // `app.expose` for exposing data globally on every route
+      <b>app.expose({
+          api_key: '02348notreal2394879137872358bla'
+      }, 'MY_APP.Flickr');</b>
+
+      // `res.expose` for exposing data on a single route
+      app.get('/photos', function (req, res) {
+          <b>res.expose(req.photos, 'MY_APP.users');</b>
+      });
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Route Handling</h2>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="javascript (server)">
+      // Map routes to unique names with `express-map`
+      app.map('/users/', 'user-list');
+      <b>app.map('/users/:user', 'user-profile');</b>
+
+      // Expose routes as serialized objects on the client
+      <b>app.expose(app.getRouteMap(), 'MY_APP.routes');</b>
+      </pre>
+      <pre class="prettyprint" data-lang="javascript (client)">
+      // `App.ROUTES` is available anywhere on the client
+      console.log(MY_APP.routes);
+
+      // Merge `App.ROUTES` with any client-only route data (not shown here)
+      // and bootstrap it in your application.
+      app.set('routes', MY_APP.routes);
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Resource Fetching</h2>
+      <h3>Resource Models</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="JavaScript (Shared)">
+          var Weather = {
+              /* Client and server code can both use the same 'fetch' method to get data */
+              fetch: function(location) {
+                 <b>var query = 'SELECT * FROM weather.forecast WHERE location=' + location;</b>
+
+                 <b>return Y.YQLPromise(query).then(function (data) {</b>
+                      <b>/* Parse the data from the response here */</b>
+                  <b>});</b>
+              }
+          };
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Resource Fetching</h2>
+      <h3>Resource Bootstrapping</h3>
+    </hgroup>
+    <article>
+      <pre class="prettyprint" data-lang="JavaScript (Server)">
+          app.get('/weather', function (req, res) {
+              var weather = Weather.fetch().then(function (data) {
+                  <b>res.expose(data, 'Weather.DATA');</b>
+                  res.render('weather', {
+                      weather: data
+                  });
+              });
+          });
+      </pre>
+      <pre class="prettyprint" data-lang="JavaScript (Client)">
+          // `Weather.DATA` is available anywhere on the client
+          <b>console.log(Weather.DATA);</b>
+
+          // Can be used to bootstrap a new model
+          <b>this.set('weather', new WeatherModel(Weather.DATA));</b>
+      </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Formatting and Rendering</h2>
+      <h3>Share templates between client and server</h3>
+    </hgroup>
+    <article class="smaller">
+      <p><b>Compile string-based templates like Handlebars into YUI modules</b></p>
+      <ul class="build"> 
+        <li>Use build-time tools like <b class="green">Grunt</b> to compile templates in your build</li>
+        <li>Use tools like <b class="yellow">Locator</b> to abstract using templates from any location</li>
+      </ul>
+      <p><b>Use the `Y.Template` API to use templates in one way regardless of engine</b></li>
+        <pre class="prettyprint" data-lang="javascript">
+          YUI.add('templates-foo', function (Y) {
+
+              var engine = new Y.Template(Y.Handlebars),
+                  precompiled;
+
+              // Generated from the Handlebars compiler. This is the evaluated result of
+              // precompiling `foo.handlebars`.
+              precompiled = /* precompiled template interpolated here here */
+
+              Y.Template.register('foo', engine.revive(precompiled));
+
+          }, '0.0.1', {requires: ['template-base', 'handlebars-base']});
+        </pre>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Summary</h2>
+    </hgroup>
+    <article>
+      <p><b>Moving front-end to the server is better for users</b></p>
+      <ul class="build"> 
+        <li>Faster <b class="blue">load times</b> and time to initial content</li>
+        <li>Still lets you have <b class="blue">a modern JavaScript</b> UI
+      </ul>
+      <p><b>Moving front-end to the server is better for developers</b></p>
+      <ul class="build"> 
+        <li>Sharing code <b class="blue">reduces the amount of duplication</b> in your application</li>
+        <li>Keeps presentation and business logic <b class="blue">separate</b> between your team</li>
+      </ul> 
+    </article>
+  </slide>
+
   <slide class="thank-you-slide segue nobackground">
     <aside class="gdbar right"><img src="images/js-logo.png"></aside>
     <article class="flexbox vleft auto-fadein">
